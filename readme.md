@@ -96,7 +96,7 @@ python src/Produção/passo3.py
 ## 🤖 Workflows automáticos (GitHub Actions)
 
 - **`etl_update.yml`** → Executa o pipeline de ETL periodicamente ou sob demanda.
-- **`entrar_site.yml`** → Acessa e baixa dados diretamente do site com browser headless (Selenium).
+- **`entrar_site.yml`** → Acessa o site diretamente com browser de forma automatica.
 
 ---
 
