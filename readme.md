@@ -121,4 +121,4 @@ Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para m
 
 ## 👨‍💻 Autor
 
-Desenvolvido por [@Jonaska](https://github.com/JNA-System) 💻🚀
+Desenvolvido por [@JNA System](https://github.com/JNA-System) 💻🚀
