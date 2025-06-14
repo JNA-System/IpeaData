@@ -1,150 +1,124 @@
-# 📊 IPEADATA - Análise e Armazenamento de Dados Agropecuários
 
-Este projeto automatiza o download, tratamento e carregamento de dados do IPEADATA para um banco de dados PostgreSQL, com foco em temas como efetivo de animais, produção agropecuária, área colhida e despesas públicas por função.
+# 📊 IpeaData
+
+Automação de coleta, tratamento e atualização de dados econômicos e agropecuários utilizando dados públicos do [IpeaData](https://www.ipeadata.gov.br/) e do IBGE.
+
+O projeto possui scripts para ETL (Extração, Transformação e Carga) que geram datasets organizados e dashboards interativos com Streamlit.
 
 ---
 
-## 🧱 Estrutura do Projeto
+## 🚀 Funcionalidades
+
+- 🔄 Coleta automática de dados do IpeaData e IBGE.
+- 🧠 Tratamento e padronização dos dados (municípios, estados, mesorregiões e microrregiões).
+- 📈 Geração de dashboards interativos com Streamlit.
+- ⏰ Workflows automatizados com GitHub Actions.
+- 💾 Exportação de dados para arquivos CSV.
+
+---
+
+## 🗂️ Estrutura do Projeto
 
 ```
-Ipeadata/
-├── app.py                     # (Opcional) Script de execução principal
-├── config.yaml                # Configurações do projeto
-├── requirements.txt           # Dependências do Python
-├── src/                       # Scripts de ingestão e ETL por tema
-│   ├── Efetivos/
-│   ├── Produção/
-│   ├── Despesas/
-│   ├── area colhida/
-│   └── utils/                 # Funções auxiliares (ex: conexão com PostgreSQL)
-├── data/                      # Dados brutos e processados
-│   ├── Efetivos/
-│   ├── Produção/
-│   ├── Despesas/
-│   └── area colhida/
+├── .github/workflows       # Workflows do GitHub Actions
+│   ├── entrar_site.yml     # Acessa e baixa dados do site
+│   └── etl_update.yml      # Executa o pipeline de ETL
+├── data                    # Pasta onde ficam os dados gerados (CSV)
+├── src                     # Scripts principais
+│   ├── area colhida        # Scripts de área colhida
+│   ├── Despesas            # Scripts de despesas
+│   ├── Efetivos            # Dados de efetivo animal
+│   ├── Produção            # Scripts de produção agropecuária
+│   ├── utils               # Funções auxiliares
+│   └── entrar_no_site.py   # Script de automação web para acessar dados
+├── app.py                  # Dashboard Streamlit
+├── config.yaml             # Configurações gerais
+├── requirements.txt        # Dependências do projeto
+└── README.md               # Documentação
 ```
 
 ---
 
-## 🛠️ Pré-requisitos
+## 🧰 Tecnologias utilizadas
 
-- Python 3.10+
-- Git
-- PostgreSQL 13 ou superior
-
----
-
-## 🐘 Instalação do PostgreSQL (Windows)
-
-1. Baixe o instalador em: https://www.postgresql.org/download/windows/
-2. Durante a instalação:
-   - Escolha uma senha de administrador (ex: `postgres`)
-   - Anote a porta (default: `5432`)
-   - Marque a opção para instalar o **pgAdmin**
-3. Após a instalação, crie um banco de dados chamado `ipeadata`:
-
-   ```sql
-   CREATE DATABASE ipeadata;
-   ```
+- 🐍 Python 3.11
+- 📊 Streamlit
+- 🌐 Selenium (acesso web automatizado)
+- 📦 Pandas, NumPy
+- 🔗 Requests, YAML
+- 🔧 GitHub Actions (automação)
 
 ---
 
-## ⚙️ Configuração do Projeto
+## ⚙️ Instalação e execução local
 
-1. Clone este repositório:
-
-   ```bash
-   git clone https://github.com/seu-usuario/Ipeadata.git
-   cd Ipeadata
-   ```
-
-2. Crie um ambiente virtual:
-
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate     # Linux/macOS
-   .venv\Scripts\activate      # Windows
-   ```
-
-3. Instale as dependências:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Configure a conexão PostgreSQL no arquivo `src/utils/config.yaml`. Exemplo:
-
-   ```python
-   import psycopg2
-
-   def obter_conexao_postgres():
-       return psycopg2.connect(
-           host="localhost",
-           database="ipeadata",
-           user="postgres",
-           password="SUA_SENHA"
-       )
-   ```
-
----
-
-## 🚀 Execução dos Scripts
-
-Os scripts estão organizados em **passos numerados** por tema.
-
-### 🔹 Efetivo de Animais
+1. **Clone o repositório:**
 
 ```bash
-python src/Efetivos/passo1.py
-python src/Efetivos/passo2.py
+git clone https://github.com/JNA-System/IpeaData.git
+cd IpeaData
+```
+
+2. **Crie um ambiente virtual (opcional, recomendado):**
+
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/macOS
+venv\Scripts\activate      # Windows
+```
+
+3. **Instale as dependências:**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **Execute o dashboard:**
+
+```bash
+streamlit run app.py
+```
+
+5. O dashboard abrirá automaticamente no navegador padrão.
+
+---
+
+## 🔄 Executar o ETL manualmente
+
+```bash
 python src/Efetivos/passo3.py
-python src/Efetivos/passo4.py
-python src/Efetivos/passo5.py
-```
-
-### 🔹 Produção Agropecuária
-
-```bash
 python src/Produção/passo1.py
-python src/Produção/passo2.py
 python src/Produção/passo3.py
-python src/Produção/passo4.py
-python src/Produção/passo5.py
-```
-
-### 🔹 Despesas Públicas
-
-```bash
-python src/Despesas/passo1.py
-python src/Despesas/passo2.py
-```
-
-### 🔹 Área Colhida
-
-```bash
-python src/area colhida/passo1.py
-python src/area colhida/passo2.py
-python src/area colhida/passo3.py
 ```
 
 ---
 
-## 📦 Dependências Principais
+## 🤖 Workflows automáticos (GitHub Actions)
 
-- `pandas`
-- `psycopg2`
-- `requests`
-- `pyyaml`
-
-Veja `requirements.txt` para a lista completa.
+- **`etl_update.yml`** → Executa o pipeline de ETL periodicamente ou sob demanda.
+- **`entrar_site.yml`** → Acessa e baixa dados diretamente do site com browser headless (Selenium).
 
 ---
 
-## 📌 Observações
+## 🗺️ Fontes de dados
 
-- Todos os dados são públicos (fonte: IPEADATA.gov.br).
-- Os scripts criam as tabelas automaticamente se não existirem.
-- Certifique-se de que o banco esteja rodando antes de executar qualquer script.
+- [IpeaData](https://www.ipeadata.gov.br/)
+- [IBGE](https://www.ibge.gov.br/)
 
 ---
 
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Abra uma issue ou envie um pull request.
+
+---
+
+## 📜 Licença
+
+Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por [@Jonaska](https://github.com/JNA-System) 💻🚀
