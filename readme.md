@@ -115,7 +115,7 @@ Contribuições são bem-vindas! Abra uma issue ou envie um pull request.
 
 ## 📜 Licença
 
-Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
 
 ---
 
