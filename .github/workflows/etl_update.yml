@@ -1,0 +1,46 @@
+name: Atualizar Dados IPEA
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # Executa todo dia às 04:00 UTC (01:00 em Brasília)
+  workflow_dispatch:     # Permite execução manual no GitHub
+
+permissions:
+  contents: write  # Necessário para permitir push com GITHUB_TOKEN
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar repositório
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: ⚙️ Rodar script ETL
+        run: |
+              python src/Efetivos/passo3.py &
+              python src/Produção/passo1.py &
+              python src/Produção/passo3.py &
+              python src/area colhida/passo1.py &
+              wait
+
+      - name: 🔁 Commit e push dos CSVs atualizados
+        run: |
+          git config user.name "jnasystems"
+          git config user.email "systemsjna@gmail.com"
+          git add -A
+          git commit -m "📊 Atualização automática dos dados do IPEA" || echo "Nenhuma alteração para commit"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin main
